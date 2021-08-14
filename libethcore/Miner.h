@@ -93,7 +93,8 @@ struct MinerSettings
 {
     vector<unsigned> devices;
     float targetUsage = 1.0;
-    flaot startrUsage = 1.0;
+    float startUsage = 1.0;
+    int startUsageAdjustInterval = 5
 };
 
 // Holds settings for CUDA Miner

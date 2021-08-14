@@ -290,6 +290,20 @@ public:
         float startUsage = 0.5f;
         app.add_option("--start-usage", startUsage, "", true)->check(CLI::Range(0.0f, 1.0f));
 
+        int startUsageAdjustInterval = 5;
+        app.add_option("--start-usage-adjust-interval", startUsageAdjustInterval, "", true)->check(CLI::Range(0, 2000));
+
+        m_CUSettings.targetUsage = targetUsage;
+        m_CLSettings.targetUsage = targetUsage;
+        m_CPSettings.targetUsage = targetUsage;
+        m_CUSettings.startUsage = startUsage;
+        m_CLSettings.startUsage = startUsage;
+        m_CPSettings.startUsage = startUsage;
+        m_CUSettings.startUsageAdjustInterval = startUsageAdjustInterval;
+        m_CLSettings.startUsageAdjustInterval = startUsageAdjustInterval;
+        m_CPSettings.startUsageAdjustInterval = startUsageAdjustInterval;
+
+        app.add_option("--gpu-startup-interval", m_FarmSettings.gpuStartupInterval, "", true)->check(CLI::Range(0, 2000));
 
 #if API_CORE
 
@@ -411,12 +425,6 @@ public:
 
 #endif
 
-        m_CUSettings.startUsage = startUsage;
-        m_CLSettings.startUsage = startUsage;
-        m_CPSettings.startUsage = startUsage;
-        m_CUSettings.targetUsage = targetUsage;
-        m_CLSettings.targetUsage = targetUsage;
-        m_CPSettings.targetUsage = targetUsage;
         if (cl_miner)
             m_minerType = MinerType::CL;
         else if (cuda_miner)
@@ -1076,6 +1084,10 @@ public:
                  << "                        Set the target usage" << endl
                  << "    --start-usage       FLOAT {0.0 .. 1.0} Default = 1.0" << endl
                  << "                        Set the start usage" << endl
+                << "    --start-usage-adjust-interval   int {0 .. 1000} Default = 5" << endl
+                << "                         second for adjust usage of gpu card" << endl
+                << "    --gpu-startup-interval       int {1...2000} Default = 5" << endl
+                 << "                        second delay to start gpu mining on startup" << endl
                  << endl;
         }
 

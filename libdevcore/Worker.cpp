@@ -28,11 +28,12 @@
 using namespace std;
 using namespace dev;
 
-void Worker::startWorking()
+void Worker::startWorking(int gpuStartInterval)
 {
     DEV_BUILD_LOG_PROGRAMFLOW(cnote, "Worker::startWorking() begin");
     //	cnote << "startWorking for thread" << m_name;
-    std::this_thread::sleep_for(10000ms)
+    std::this_thread::sleep_for(std::chrono::seconds(gpuStartInterval));
+
     Guard l(x_work);
     if (m_work)
     {

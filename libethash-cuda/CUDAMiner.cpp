@@ -350,6 +350,8 @@ void CUDAMiner::search(
     bool done = false;
 
     auto start = std::chrono::steady_clock::now();
+    auto begin = start;
+
     while (!done)
     {
         // Exit next time around if there's new work awaiting
@@ -427,6 +429,19 @@ void CUDAMiner::search(
                         std::chrono::microseconds((std::uint64_t)sleep_micros));
 
                     start = std::chrono::steady_clock::now();
+
+                    if m_settings.startUsage < m_settings.targetUsage
+                    {
+                        double micros_total = std::chrono::duration_cast<std::chrono::microseconds>(
+                            std::chrono::steady_clock::now() - begin).count();
+                        if ( micros_total/1000000 >= m_settings.startUsageAdjustInterval )
+                        {
+                            m_settings.startUsage += 0.1f;
+                            m_settings.startUsageAdjustInterval *= 2;
+                            if ( m_settings.startUsage >= m_settings.targetUsage )
+                                m_settings.startUsage = m_settings.targetUsage;
+                        }
+                    }
                 }
 
                 run_ethash_search(

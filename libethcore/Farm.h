@@ -56,6 +56,7 @@ struct FarmSettings
     unsigned ergodicity = 0;   // 0=default, 1=per session, 2=per job
     unsigned tempStart = 40;   // Temperature threshold to restart mining (if paused)
     unsigned tempStop = 0;     // Temperature threshold to pause mining (overheating)
+    int gpuStartupInterval = 5;  //interval between gpu card when startup all the miner
 };
 
 /**

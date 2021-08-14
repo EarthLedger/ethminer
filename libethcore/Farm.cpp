@@ -291,7 +291,7 @@ bool Farm::start()
             if (minerTelemetry.prefix.empty())
                 continue;
             m_telemetry.miners.push_back(minerTelemetry);
-            m_miners.back()->startWorking();
+            m_miners.back()->startWorking(m_Settings.gpuStartupInterval);
         }
 
         // Initialize DAG Load mode
@@ -302,7 +302,7 @@ bool Farm::start()
     else
     {
         for (auto const& miner : m_miners)
-            miner->startWorking();
+            miner->startWorking(m_Settings.gpuStartupInterval);
         m_isMining.store(true, std::memory_order_relaxed);
     }
 
