@@ -32,6 +32,7 @@ void Worker::startWorking()
 {
     DEV_BUILD_LOG_PROGRAMFLOW(cnote, "Worker::startWorking() begin");
     //	cnote << "startWorking for thread" << m_name;
+    std::this_thread::sleep_for(10000ms)
     Guard l(x_work);
     if (m_work)
     {
