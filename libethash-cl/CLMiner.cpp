@@ -303,7 +303,7 @@ void CLMiner::workLoop()
     {
 
         auto start = std::chrono::steady_clock::now();
-        auto begin = std::chrono::system_clock::now();
+        std::time_t begin = std::time(0);
         while (!shouldStop())
         {
 
@@ -409,12 +409,12 @@ void CLMiner::workLoop()
 
                 if ( m_settings.startUsage < m_settings.targetUsage )
                 {
-                    auto current = std::chrono::system_clock::now();
-                    std::chrono::duration<double, std::milli> total = current - begin;
-                    if ( total.count() >= m_settings.startUsageAdjustInterval * 1000 )
+                    std::time_t  current = std::time(0);
+                    auto total = current - begin;
+                    if ( total >= m_settings.startUsageAdjustInterval )
                     {
                         m_settings.startUsage += 0.1f;
-                        cudalog << "adjust start usage to " << m_settings.startUsage
+                        cllog << "adjust start usage to " << m_settings.startUsage;
                         m_settings.startUsageAdjustInterval *= 2;
                         if ( m_settings.startUsage >= m_settings.targetUsage )
                             m_settings.startUsage = m_settings.targetUsage;

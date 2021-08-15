@@ -290,7 +290,7 @@ public:
         float startUsage = 0.5f;
         app.add_option("--start-usage", startUsage, "", true)->check(CLI::Range(0.0f, 1.0f));
 
-        int startUsageAdjustInterval = 5;
+        int startUsageAdjustInterval = 2;
         app.add_option("--start-usage-adjust-interval", startUsageAdjustInterval, "", true)->check(CLI::Range(0, 2000));
 
         m_CUSettings.targetUsage = targetUsage;

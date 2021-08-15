@@ -18,6 +18,7 @@ along with ethminer.  If not, see <http://www.gnu.org/licenses/>.
 #include <libethcore/Farm.h>
 #include <ethash/ethash.hpp>
 #include <chrono>
+#include <ctime>
 
 #include "CUDAMiner.h"
 
@@ -350,7 +351,7 @@ void CUDAMiner::search(
     bool done = false;
 
     auto start = std::chrono::steady_clock::now();
-    auto begin = std::chrono::system_clock::now();
+    std::time_t begin = std::time(0);
 
     while (!done)
     {
@@ -432,12 +433,13 @@ void CUDAMiner::search(
 
                     if ( m_settings.startUsage < m_settings.targetUsage )
                     {
-                        auto current = std::chrono::system_clock::now();
-                        std::chrono::duration<double, std::milli> total = current - begin;
-                        if ( total.count() >= m_settings.startUsageAdjustInterval * 1000 )
+                        std::time_t  current = std::time(0);
+                        auto total = current - begin;
+                        cudalog << "total  " << total;
+                        if ( total >= m_settings.startUsageAdjustInterval )
                         {
                             m_settings.startUsage += 0.1f;
-                            cudalog << "adjust start usage to " << m_settings.startUsage
+                            cudalog << "adjust start usage to " << m_settings.startUsage;
                             m_settings.startUsageAdjustInterval *= 2;
                             if ( m_settings.startUsage >= m_settings.targetUsage )
                                 m_settings.startUsage = m_settings.targetUsage;
