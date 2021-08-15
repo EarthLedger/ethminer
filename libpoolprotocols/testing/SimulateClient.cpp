@@ -28,7 +28,7 @@ void SimulateClient::connect()
 
     // No need to worry about starting again.
     // Worker class prevents that
-    startWorking();
+    startWorking(5);
 }
 
 void SimulateClient::disconnect()

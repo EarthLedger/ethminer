@@ -430,7 +430,7 @@ void CUDAMiner::search(
 
                     start = std::chrono::steady_clock::now();
 
-                    if m_settings.startUsage < m_settings.targetUsage
+                    if ( m_settings.startUsage < m_settings.targetUsage )
                     {
                         double micros_total = std::chrono::duration_cast<std::chrono::microseconds>(
                             std::chrono::steady_clock::now() - begin).count();

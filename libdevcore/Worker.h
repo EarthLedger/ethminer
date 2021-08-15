@@ -53,7 +53,7 @@ public:
     virtual ~Worker();
 
     /// Starts worker thread; causes startedWorking() to be called.
-    void startWorking();
+    void startWorking(int);
 
     /// Triggers worker thread it should stop
     void triggerStopWorking();
