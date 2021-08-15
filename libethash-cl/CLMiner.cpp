@@ -415,7 +415,7 @@ void CLMiner::workLoop()
                     {
                         m_settings.startUsage += 0.1f;
                         cllog << "adjust start usage to " << m_settings.startUsage;
-                        m_settings.startUsageAdjustInterval *= 2;
+                        begin = current;
                         if ( m_settings.startUsage >= m_settings.targetUsage )
                             m_settings.startUsage = m_settings.targetUsage;
                     }

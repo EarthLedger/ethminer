@@ -435,12 +435,12 @@ void CUDAMiner::search(
                     {
                         std::time_t  current = std::time(0);
                         auto total = current - begin;
-                        cudalog << "total  " << total;
+                        cudalog << "total  " << total << "adjust "<<m_settings.startUsageAdjustInterval;
                         if ( total >= m_settings.startUsageAdjustInterval )
                         {
                             m_settings.startUsage += 0.1f;
                             cudalog << "adjust start usage to " << m_settings.startUsage;
-                            m_settings.startUsageAdjustInterval *= 2;
+                            begin = current;
                             if ( m_settings.startUsage >= m_settings.targetUsage )
                                 m_settings.startUsage = m_settings.targetUsage;
                         }
