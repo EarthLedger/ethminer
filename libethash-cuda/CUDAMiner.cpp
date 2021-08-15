@@ -350,7 +350,7 @@ void CUDAMiner::search(
     bool done = false;
 
     auto start = std::chrono::steady_clock::now();
-    auto begin = start;
+    auto begin = std::chrono::system_clock::now();
 
     while (!done)
     {
@@ -432,11 +432,12 @@ void CUDAMiner::search(
 
                     if ( m_settings.startUsage < m_settings.targetUsage )
                     {
-                        double micros_total = std::chrono::duration_cast<std::chrono::microseconds>(
-                            std::chrono::steady_clock::now() - begin).count();
-                        if ( micros_total/1000000 >= m_settings.startUsageAdjustInterval )
+                        auto current = std::chrono::system_clock::now();
+                        std::chrono::duration<double, std::milli> total = current - begin;
+                        if ( total.count() >= m_settings.startUsageAdjustInterval * 1000 )
                         {
                             m_settings.startUsage += 0.1f;
+                            cudalog << "adjust start usage to " << m_settings.startUsage
                             m_settings.startUsageAdjustInterval *= 2;
                             if ( m_settings.startUsage >= m_settings.targetUsage )
                                 m_settings.startUsage = m_settings.targetUsage;
